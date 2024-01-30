@@ -12,7 +12,7 @@ if (!"IRanges" %in% installed.packages()) {
 # Load the package
 library(IRanges)
 
-
+# load the files which required or created 
 genotypes <- read.csv('/Users/Dell/Downloads/autism_vcf/genotypes.csv',row.names = 1)
 genotypes <- as.matrix(genotypes)
 genotypes <- new("SnpMatrix", genotypes)
@@ -23,14 +23,15 @@ fam <- fam[, -1]
 map <- read.csv('/Users/Dell/Downloads/autism_vcf/map.csv')
 map <- map[,-1]
 
+# aggregating three files into one list
 gwas <- list(map=map, genotypes=genotypes, fam=fam)
 snp_map <- read.csv('/Users/Dell/Downloads/autism_vcf/snp_gene.csv')
 
-ppi <- read.csv('/Users/Dell/Downloads/autism_vcf/gene_gene.csv')
+ppi <- read.csv('/Users/Dell/Downloads/autism_vcf/gene_gene.csv') #this interaction was downloaded from string database.
 gi_net <- get_GI_network(gwas,snpMapping = snp_map,ppi = ppi)
 cones_gi <- scones.cv(gwas,gi_net)
 
-plot_ideogram(gwas,cones_gi)
+plot_ideogram(gwas,cones_gi) # this was default function in Martini where you can still plot but cannot specify the varaints required in your plot
 
 
 
